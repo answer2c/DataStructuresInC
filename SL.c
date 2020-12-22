@@ -211,7 +211,9 @@ int main()
                 initStudentList(&L);
                 break;
             case 2:
-                insertNewStu(&L);
+                if (!insertNewStu(&L)) {
+                    printf("插入失败\n");
+                }
                 break;
 			case 3:
             {
@@ -227,7 +229,9 @@ int main()
 			    showStu(L);
 			    break;
 			case 5:
-			    delStu(&L);
+			    if (!delStu(&L)) {
+			        printf("插入失败");
+			    }
 			    break;
             default:
                 destructList(&L);
