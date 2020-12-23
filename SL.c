@@ -14,15 +14,15 @@ const int NAME_LEN = 20;
 static int class_size;
 
 //学生结构体
-typedef struct{
+typedef struct {
 	int no; //学号
 	char name[NAME_LEN];
 }student;
 
 //顺序表结构体
-typedef struct{
-	student *elem;
-	int length;
+typedef struct {
+    student *elem;
+    int length;
 	int ListSize;
 }sqlist;
 
@@ -48,8 +48,7 @@ STATUS  initList(sqlist *L) {
 	if (L == NULL) {
 		return ERROR;
 	}
-	//todo 一开始不分配空间
-	L->elem = (student *) malloc(sizeof (student) * LIST_SIZE);
+	L->elem = NULL; 	// 一开始不分配空间s
     L->length = 0;
     L->ListSize = LIST_SIZE;
 	return OK;
@@ -78,7 +77,7 @@ STATUS initStudentList(sqlist *L)
     if (!scanf("%d", &class_size)){
         class_size = LIST_SIZE;
     }
-
+    L->elem = (student *) malloc( sizeof(student) * class_size);
 	printf("请依次输入学生信息: \n");
     for (int i = 0; i < class_size; i++) {
         printf("第%d个学生信息：\n学号：", i+1);
@@ -104,7 +103,7 @@ int findStu(sqlist L)
     while (i < L.length && no != L.elem[i].no)
         i++;
 
-    if (i > L.length)
+    if (i >= L.length)
         return ERROR;
 
     return i;
@@ -139,6 +138,8 @@ STATUS insertNewStu(sqlist *L)
 	    return OVERFLOW;
 	}
 
+	L->elem = realloc(L->elem, sizeof(student) * (L->length + 1));
+	L->elem[L->length] = stu;
 	for (int n = L->length-1; n >= position - 1; n--) {
 	    //移动插入位置之后的所有元素
 		L->elem[n+1] = L->elem[n];
@@ -170,7 +171,7 @@ STATUS delStu(sqlist *L)
     for (int q = position; q < L->length - 1; q++) {
         L->elem[q] = L->elem[q + 1];
     }
-
+    L->elem = realloc(L->elem, sizeof(student) * (L->length - 1));
     L->length--;
     return OK;
 }
