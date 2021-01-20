@@ -1,2 +1,2 @@
-# C-SequenceList
-C语言顺序表
+# data structures in c
+数据结构c语言实现
